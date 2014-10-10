@@ -24,7 +24,7 @@ public class CalendarAlt {
         System.out.println("Dia de semana: " + fech.get(Calendar.DAY_OF_WEEK));
         fech.add(Calendar.YEAR, 2);
         fech.add(Calendar.MONTH, -2);
-        
+        System.out.println(fech.getTime());
         
     }
 }
