@@ -15,7 +15,6 @@ public class Fechas {
     public static void main(String[] args) {
         Calendar c = Calendar.getInstance();
         c.set(1982,Calendar.AUGUST,10);
-        Date d = c.getTime();
-        System.out.println(d);
+        System.out.println(c.getTime());
     }
 }
