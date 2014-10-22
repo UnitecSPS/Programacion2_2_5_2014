@@ -11,10 +11,12 @@ package herencia;
  */
 public class Battle {
     public static void main(String[] args) {
+        //UPCASTING
         Heroe knight = new Guerrero("Aragorn");
         //knight = new Mago("Gandalf");
         knight.atacar();
-        System.out.println("name: " + knight.name);
+        System.out.println("name: " + knight.name + 
+                " hp: " + knight.hp );
         
         //obj instanceof Clase
         if(knight instanceof Heroe)

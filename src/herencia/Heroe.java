@@ -10,8 +10,8 @@ package herencia;
  * @author Docente
  */
 public class Heroe {
-    public int hp;
-    public String name;
+    protected int hp;
+    protected String name;
     
     public Heroe(int hp,String n){
         this.hp = hp;
@@ -24,5 +24,10 @@ public class Heroe {
     
     public void defensa(Heroe heroe){
         hp = 0;
+    }
+    
+    @Override
+    public String toString(){
+        return "Nombre: " + name + " - "+hp+" hp";
     }
 }

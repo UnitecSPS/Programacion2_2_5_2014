@@ -14,11 +14,21 @@ public class Guerrero extends Heroe {
 
     public Guerrero(String n){
         super(100,n);
-        escudop = 200;   
+        atacar();
+        escudop = 200;
+        //super.hp+=escudop;
+        hp+=escudop;
+        //this.hp+=escudop;
     }
     
     public int getEscudop() {
         return escudop;
+    }
+
+    @Override
+    public String toString() {
+        return "Guerrero{" + super.toString() +
+                " escudop=" + escudop + '}';
     }
     
     
