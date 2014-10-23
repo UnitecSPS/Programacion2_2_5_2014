@@ -14,5 +14,24 @@ public class Mago extends Heroe {
     public Mago(String n) {
         super(70, n);
     }
+
+    @Override
+    public String toString() {
+        return "Mago{"+ super.toString() + "}"; 
+    }
+    
+    public void spellsDisponibles(){
+        System.out.println("-Abracadabra Patas de Cabra");
+        System.out.println("-Wingardium Leviosa");
+        System.out.println("-Esprectro Patronum");
+        System.out.println("-Sectusempra");
+    }
+
+    @Override
+    public void atacar() {
+        System.out.println("Agito la varita y le tiro un spell");
+    }
+    
+    
     
 }

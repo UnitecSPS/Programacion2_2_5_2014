@@ -14,11 +14,7 @@ public class Guerrero extends Heroe {
 
     public Guerrero(String n){
         super(100,n);
-        atacar();
         escudop = 200;
-        //super.hp+=escudop;
-        hp+=escudop;
-        //this.hp+=escudop;
     }
     
     public int getEscudop() {
@@ -30,6 +26,17 @@ public class Guerrero extends Heroe {
         return "Guerrero{" + super.toString() +
                 " escudop=" + escudop + '}';
     }
+
+    @Override
+    public void atacar() {
+        System.out.println("Agarro mi espada y me cubro con mi escudo");
+    }
+
+    @Override
+    public void defensa(Heroe heroe) {
+        //TODO
+    }
+    
     
     
 }

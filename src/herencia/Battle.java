@@ -19,11 +19,18 @@ public class Battle {
                 " hp: " + knight.hp );
         
         //obj instanceof Clase
-        if(knight instanceof Heroe)
-            System.out.println("Soy Heroe!");
-        if(knight instanceof Guerrero)
-            System.out.println("Soy Guerrro!");
-        if(knight instanceof Mago)
+        if(knight instanceof Guerrero){
+            //downcasting indirecto
+            Guerrero gue = (Guerrero)knight;
+            System.out.println("Escudo: " + gue.getEscudop());
+            gue.name = "Patito";
+            System.out.println(knight.name);
+        }
+        else if(knight instanceof Mago)
             System.out.println("Abracadabra");
+        else if(knight instanceof Arquero)
+            System.out.println("Flechaa");
+        else
+            System.out.println("Soy Heroe!");
     }
 }
