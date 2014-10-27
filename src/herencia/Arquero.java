@@ -28,7 +28,7 @@ public class Arquero extends Heroe {
 
     @Override
     public void defensa(Heroe heroe) {
-        super.defensa(heroe); //To change body of generated methods, choose Tools | Templates.
+        //super.defensa(heroe); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

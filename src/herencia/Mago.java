@@ -31,6 +31,11 @@ public class Mago extends Heroe {
     public void atacar() {
         System.out.println("Agito la varita y le tiro un spell");
     }
+
+    @Override
+    public void defensa(Heroe heroe) {
+        //TODO
+    }
     
     
     

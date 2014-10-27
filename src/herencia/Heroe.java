@@ -9,7 +9,7 @@ package herencia;
  *
  * @author Docente
  */
-public class Heroe {
+public abstract class Heroe {
     protected int hp;
     protected String name;
     
@@ -17,14 +17,26 @@ public class Heroe {
         this.hp = hp;
         name = n;
     }
-    
-    public void atacar(){
-        System.out.println("Especifique su heroe");
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
-    public void defensa(Heroe heroe){
-        hp = 0;
-    }
+    public abstract void atacar();
+    
+    public abstract void defensa(Heroe heroe);
     
     @Override
     public String toString(){

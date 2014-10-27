@@ -29,6 +29,7 @@ public class Guerrero extends Heroe {
 
     @Override
     public void atacar() {
+        //super.atacar(); NO PUEDO!
         System.out.println("Agarro mi espada y me cubro con mi escudo");
     }
 
