@@ -32,5 +32,24 @@ public class Battle {
             System.out.println("Flechaa");
         else
             System.out.println("Soy Heroe!");
+       
+        //Funciones On-Demand
+        Heroe lempira = new Heroe(23,"Lempira")
+        {
+            public void test(){
+                System.out.println("Bumba Bumba Flechazo al español");
+            }
+                    
+            @Override
+            public void atacar(){
+                test();
+            }
+            
+            @Override
+            public void defensa(Heroe e){
+                System.out.println("Me subo a Congolon");
+            }
+        };
+        lempira.atacar();
     }
 }

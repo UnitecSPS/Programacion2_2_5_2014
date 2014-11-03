@@ -12,8 +12,10 @@ import java.util.Calendar;
  * @author Docente
  */
 public class WorlOfJava {
+    static ArrayList<Heroe> heroes = new ArrayList<>();
+    
     public static void main(String[] args) {
-        ArrayList<Heroe> heroes = new ArrayList<>();
+        
         Calendar c = Calendar.getInstance();//new Calendar();
         //heroes.add( new Heroe(10,"Patito") );
         heroes.add( new Guerrero("Aragorn")  );
@@ -23,6 +25,7 @@ public class WorlOfJava {
         
         for(Heroe h : heroes){
             h.atacar();
+                    
             //downcasting directo
             if( h instanceof Guerrero){
                 int scp = ((Guerrero)h).getEscudop();
@@ -32,5 +35,24 @@ public class WorlOfJava {
                 ((Mago)h).spellsDisponibles();
             }
         }
+    }
+    
+    public static void addHeroe(TipoHeroe tipo){
+        //como comparar un enum
+        if( tipo == TipoHeroe.GUERRERO )
+            System.out.println("Seleccione un Guerrero");
+        else if( tipo.name().equals(TipoHeroe.ARQUERO.name())){
+            System.out.println("Seleccione un Arquero");
+        }
+        else if( tipo.ordinal() == TipoHeroe.MAGO.ordinal() ){
+            System.out.println("Seleccione un Mago");
+        }
+        
+        switch(tipo){
+            case JEDI:
+                System.out.println("Seleccione un Jedi");
+                break;
+        }
+        
     }
 }
