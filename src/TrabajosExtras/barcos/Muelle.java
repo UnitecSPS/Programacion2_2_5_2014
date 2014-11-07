@@ -104,7 +104,7 @@ public class Muelle {
     public static double vaciarBarco(String n){
         Barco b = buscarBarco(n);
         if (b != null){
-            b.toString();
+            System.out.println(b);;
             return b.vaciarCobrar();
         }else
             System.out.println("Barco no encontrado.");
@@ -122,7 +122,7 @@ public class Muelle {
     public static void agregarCardumen(String nombre, int cantidad) {
         Barco b = buscarBarco(nombre);
         
-        if(b != null && b instanceof BarcoPesquero){
+        if(b instanceof BarcoPesquero){
             ((BarcoPesquero)b).agregarCardumen(cantidad);
             System.out.println("AGREGADO CORRECTAMENTE");
         }else
