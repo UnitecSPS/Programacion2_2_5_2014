@@ -104,7 +104,7 @@ public class Muelle {
     public static double vaciarBarco(String n){
         Barco b = buscarBarco(n);
         if (b != null){
-            System.out.println(b);;
+            System.out.println(b);
             return b.vaciarCobrar();
         }else
             System.out.println("Barco no encontrado.");
