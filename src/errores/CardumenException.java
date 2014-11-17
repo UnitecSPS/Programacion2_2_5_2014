@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaces;
+package errores;
 
 /**
  *
  * @author Docente
  */
-public interface InternetConnection  {
-    int version = 1;
-    boolean connection()/*throws algoException*/;
-    String getIp();
-    void setIp(String ip);
+public class CardumenException extends Exception {
+    public CardumenException(int c){
+        super(c+" No es una cantidad aceptado.");
+    }
+            
 }

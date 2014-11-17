@@ -5,6 +5,8 @@
  */
 package TrabajosExtras.barcos;
 
+import errores.CardumenException;
+
 /**
  *
  * @author Raim
@@ -31,7 +33,14 @@ public class BarcoPesquero extends Barco{
         return totalPeces * precioPorPescado;
     }
     
-    public void agregarCardumen(int cant){
+    /**
+     * Agregar una <code>Cant</code> especifica de peces
+     * @param cant la cantidad del cardumen
+     * @throws CardumenException Si la cantidad es negativa
+     */
+    public void agregarCardumen(int cant)throws CardumenException {
+        if( cant < 0 )
+            throw new CardumenException(cant);
         pecesCapturados += cant;
     }
     

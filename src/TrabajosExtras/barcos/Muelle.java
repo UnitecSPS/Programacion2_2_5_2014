@@ -5,6 +5,7 @@
  */
 package TrabajosExtras.barcos;
 
+import errores.CardumenException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class Muelle {
     static ArrayList<Barco> boats = new ArrayList<>();
     static Scanner lea = new Scanner(System.in);
     
-    public static void main(String[] args) {
+    public static void main(String[] args){
         int op = 0;
         
         do{              
@@ -24,33 +25,38 @@ public class Muelle {
                 "3. Vaciar Barco.\n4. Listar pasajeros.\n5. Agregar cardumen.\n6. Salir." +
                     "\nIngrese su opcion: ");
             op = lea.nextInt();
-            switch(op){
-                case 1:
-                    System.out.print("1. PESQUERO.\n2. PASAJERO.\n" +
-                            "Ingresé el tipo de barco que desea agregar: ");
-                    agregarBarco(TipoBarco.valueOf(lea.next().toUpperCase()));
-                    break;
-                case 2:                
-                    agregarElemento(llamarBuscar());
-                    break;
-                case 3:                    
-                    double tot = vaciarBarco(llamarBuscar());
-                    System.out.println("Total generado: " + tot);
-                    break;
-                case 4:
-                    listarPasajeros();
-                    break;
-                case 5:
-                    String ba = llamarBuscar();
-                    System.out.print("Ingrese la cantidad de peces que se van a agregar: ");
-                    int peces = lea.nextInt();
-                    agregarCardumen(ba, peces);
-                    break;
-                case 6:
-                    System.out.println("Saliendo.");
-                    break;
-                default:
-                    System.out.println("Opcion invalida. Ingrese de nuevo.");
+            try{
+                switch(op){
+                    case 1:
+                        System.out.print("1. PESQUERO.\n2. PASAJERO.\n" +
+                                "Ingresé el tipo de barco que desea agregar: ");
+                        agregarBarco(TipoBarco.valueOf(lea.next().toUpperCase()));
+                        break;
+                    case 2:                
+                        agregarElemento(llamarBuscar());
+                        break;
+                    case 3:                    
+                        double tot = vaciarBarco(llamarBuscar());
+                        System.out.println("Total generado: " + tot);
+                        break;
+                    case 4:
+                        listarPasajeros();
+                        break;
+                    case 5:
+                        String ba = llamarBuscar();
+                        System.out.print("Ingrese la cantidad de peces que se van a agregar: ");
+                        int peces = lea.nextInt();
+                        agregarCardumen(ba, peces);
+                        break;
+                    case 6:
+                        System.out.println("Saliendo.");
+                        break;
+                    default:
+                        System.out.println("Opcion invalida. Ingrese de nuevo.");
+                }
+            }
+            catch(CardumenException e){
+                System.out.println("Error: " + e.getMessage());
             }
  
         }while(op != 6);
@@ -119,7 +125,7 @@ public class Muelle {
         }
     }
 
-    public static void agregarCardumen(String nombre, int cantidad) {
+    public static void agregarCardumen(String nombre, int cantidad)throws CardumenException {
         Barco b = buscarBarco(nombre);
         
         if(b instanceof BarcoPesquero){
