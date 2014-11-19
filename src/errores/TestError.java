@@ -15,12 +15,26 @@ import java.util.Scanner;
 public class TestError {
     public static void main(String[] args) {
         System.out.println("Inicio Main");
+    
         try{
             A();
+            System.out.println("Terminando Try");
         }
-        catch(Exception e){
-            System.out.println("ERROR");
+        catch(ArithmeticException e){
+            System.out.println("No dividas entre 0 vo!");
         }
+        catch(InputMismatchException e){
+            System.out.println("Ingrese un entero");
+        }
+        finally{
+            System.out.println("Ejecutando Finally");
+        }
+        /*catch(Exception e){
+            System.out.println("ERROR: "+
+                    e.getMessage());
+            //e.printStackTrace();
+        }*/
+            
         
         System.out.println("Finalizo Main");
     }
