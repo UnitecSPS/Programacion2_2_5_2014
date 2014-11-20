@@ -56,7 +56,7 @@ public class FileTest {
             String resp = lea.next();
              
             if(resp.equals("SI")){
-                if(file.delete())
+                if(delete(file))
                     System.out.println("Se borro bien");
             }
             
@@ -118,7 +118,7 @@ public class FileTest {
     }
     
     //seudocodigo del tree
-    public static void tree(File dir){
+        public static void tree(File dir){
         /*1-si es archivo no imprimo nada y la funcion termina
           2-si es directorio, imprimo el nombre y luego
               saco su contenido con listfiles
@@ -153,5 +153,22 @@ public class FileTest {
             return len;
         }
         return 0;
+    }
+
+    private static boolean delete(File file) {
+        try{
+            boolean interno = true;
+            
+            if(file.isDirectory()){
+                for(File chi : file.listFiles())
+                    interno = delete(chi);
+            }
+            
+            return file.delete() && interno;
+            
+        }catch(SecurityException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
