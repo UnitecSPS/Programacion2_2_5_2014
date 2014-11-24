@@ -67,6 +67,7 @@ core
 nbproject/*
 !nbproject/project.properties
 !nbproject/project.xml
+College/*
  
 #java specific
 *.class
