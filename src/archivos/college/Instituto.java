@@ -14,6 +14,54 @@ import java.io.RandomAccessFile;
  * @author Docente
  * 
  * Formatos
+ * >>> maestros.col
+CONTIENE:
+int numero
+string nombre
+long fecha
+int contador
+boolean disponible
+
+>>> alumnos.col
+CONTIENE:
+int numero
+string nombre
+long fecha
+double promedio
+string carrera >> Enum
+char estado:
+> A activo
+> G graduado
+> R retirado
+
+>>> numero/historial.col
+CONTIENE:
+string seccion
+double nota
+char estado:
+>A aprobado
+>R reprobado
+>P pendiente 
+
+ 
+>>> secciones/numero#.col
+CONTIENE
+int año
+string nombre clase
+int numero
+int cantidad-alumnos
+*
+int normal
+double notaFinal
+char estado
+
+
+>>> codigos.col
+CONTIENE:
+int codigo maestros
+int codigo alumnos
+int codigo secciones
+
  */
 public class Instituto {
     private RandomAccessFile rMaistros, rAlumns;
