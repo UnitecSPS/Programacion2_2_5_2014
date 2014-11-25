@@ -5,12 +5,84 @@
  */
 package archivos.college;
 
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  *
  * @author Docente
  */
 public class MIT {
+    static Instituto mit = new Instituto();
+    static Scanner lea = new Scanner(System.in);
+    
     public static void main(String[] args) {
-        Instituto mit = new Instituto();
+        
+        int op=0;
+        do{
+            System.out.println("1- Agregar Maestro");
+            System.out.println("2- Agregar Alumno");
+            System.out.println("3- Listar Maestros disponibles");
+            System.out.println("7- Salir");
+            System.out.println("Escoja opcion: ");
+            
+            try{
+                op = lea.nextInt();
+                
+                switch(op){
+                    case 1:
+                        addMaestro();
+                        break;
+                    case 2:
+                        addAlumno();
+                        break;
+                    case 3:
+                        mit.listarMaestrosDisponibles();
+                        break;
+                }
+                
+            }catch(InputMismatchException e){
+                System.out.println("Ingrese un entero");
+                lea.next();
+            }
+            catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+            catch(IllegalArgumentException e){
+                System.out.println("Carrera no es aceptada");
+            }
+            
+        }while(op != 7);
+    }
+
+    private static void addMaestro()throws IOException {
+        System.out.println("Nombre: ");
+        String n = lea.next();
+        System.out.println("Fecha d/m/anio: ");
+        String fecha = lea.next();
+        mit.addMaestro(n, getfecha(fecha));
+    }
+
+    private static void addAlumno()throws IOException {
+        System.out.println("Nombre: ");
+        String n = lea.next();
+        System.out.println("Fecha d/m/anio: ");
+        String fecha = lea.next();
+        System.out.println("Carrera: ");
+        Carrera car = Carrera.valueOf(lea.next().toUpperCase());
+        mit.addAlumno(n, getfecha(fecha), car);
+    }
+
+    private static Date getfecha(String fecha) {
+        String data[] = fecha.split("/");
+        int dia = Integer.parseInt(data[0]);
+        int mes = Integer.parseInt(data[1]);
+        int year = Integer.parseInt(data[2]);
+        Calendar c = Calendar.getInstance();
+        c.set(year, mes-1, dia);
+        return c.getTime();
     }
 }
