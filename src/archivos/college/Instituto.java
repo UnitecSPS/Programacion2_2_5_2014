@@ -8,6 +8,7 @@ package archivos.college;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -35,7 +36,7 @@ char estado:
 > G graduado
 > R retirado
 
->>> numero/historial.col
+>>> alumnos/historial_numeroalumno.col
 CONTIENE:
 string seccion
 double nota
@@ -142,7 +143,8 @@ public class Instituto {
     public void addAlumno(String n, Date fecha, Carrera car)throws IOException{
         rAlumns.seek(rAlumns.length());
         //codigo
-        rAlumns.writeInt(getAlumnoCodigo());
+        int numero = getAlumnoCodigo();
+        rAlumns.writeInt(numero);
         //nombre
         rAlumns.writeUTF(n);
         //fecha
@@ -153,6 +155,8 @@ public class Instituto {
         rAlumns.writeUTF(car.name());
         //estado
         rAlumns.writeChar('A');
+        //crear folder de alumno dentro de dir root
+        new File(DIR_ROOT+"/alumnos/"+numero).mkdirs();
     }
     
     /**
@@ -216,32 +220,91 @@ public class Instituto {
      *              'R' todos los retirados
      *              'G' todos los graduados
      *              'T' TODOS sin importar su estado
+     * @throws IOException 
      */
-    public void listarAlumnos(char estado){
-        
+    public void listarAlumnos(char estado)throws IOException{
+        rAlumns.seek(0);
+        while(rAlumns.getFilePointer() < rAlumns.length()){
+            int cod = rAlumns.readInt();
+            String no = rAlumns.readUTF();
+            Date fecha = new Date(rAlumns.readLong());
+            double prom = rAlumns.readDouble();
+            String carr = rAlumns.readUTF();
+            char state = rAlumns.readChar();
+            
+            if(estado == 'T' || estado == state){
+                System.out.printf("%d - %n - nacido en %s - matriculado en %s - promedio: %.1f%n",
+                        cod,no,fecha.toString(),carr,prom);
+            }
+        }
     }
     
     /**
      * Busca un alumno en el archivo
      * @param na Numero de Alumnos
      * @return Si existe o no
+     * @throws IOException 
      */
-    public boolean searchAlumno(int na){
+    public boolean searchAlumno(int na)throws IOException{
+        rAlumns.seek(0);
+        
+        while(rAlumns.getFilePointer() < rAlumns.length()){
+            if( rAlumns.readInt() == na )
+                return true;
+            
+            rAlumns.readUTF();
+            rAlumns.skipBytes(16);
+            rAlumns.readUTF();
+            rAlumns.readChar();
+        }
+               
         return false;
+    }
+    
+    private String seccionFilename(int ns){
+        return DIR_ROOT+"/secciones/numero"+ns+".col";
     }
     
     /**
      * Crea una nueva seccion
      * @param nom Nombre de Seccion
      * @param nm Numero de Maestro
+     * @throws IOException 
      */
-    public void crearSeccion(String nom, int nm){
+    public void crearSeccion(String nom, int nm)throws IOException{
         /*
         Resticciones:
             - Que el maestro este disponible
             - mostrar en pantalla el nombre del maestro
                 si esta disponibles
         */
+        int ns = getSeccionCodigo();
+        
+        if(isMaestroDisponible(nm)){
+            RandomAccessFile rsecc = new RandomAccessFile(seccionFilename(ns), "rw");
+            //año
+            rsecc.writeInt(Calendar.getInstance().get(Calendar.YEAR));
+            //nombre
+            rsecc.writeUTF(nom);
+            //numero de maestro
+            rsecc.writeInt(nm);
+            //cantidad de alumnos
+            rsecc.writeInt(0);
+            
+            rsecc.close();
+        }
+        else
+            System.out.println("Maestro NO existe o NO esta disponible");
+    }
+    
+    /**
+     * Averigua si una seccion existe
+     * @param ns Numero de Seccion
+     * @return Si existe o no
+     */
+    private boolean existeSeccion(int ns) {
+        File f = new File(seccionFilename(ns));
+        return f.exists();
     }
     
     /**
@@ -249,13 +312,34 @@ public class Instituto {
      * @param ns Numero de Seccion
      * @param na Numero de Alumno
      * @return Si se pudo inscribir o no
+     * @throws java.io.IOException
      */
-    public boolean inscribirAlumnoEnSeccion(int ns,int na){
+    public boolean inscribirAlumnoEnSeccion(int ns,int na)throws IOException{
         /**
          * Restricciones:
          *   - Que el alumno exista
          *   - Que la seccion exista
          */
+        if(searchAlumno(na) && existeSeccion(ns)){
+            RandomAccessFile rsecc = new RandomAccessFile(seccionFilename(ns), "rw");
+            rsecc.readInt();
+            rsecc.readUTF();
+            rsecc.readInt();
+            int cals = rsecc.readInt();
+            rsecc.seek(rsecc.getFilePointer()-4);
+            //actualizo la cant de alumnos+1
+            rsecc.writeInt(cals+1);
+            //me voy al final para agregar al alumnos
+            rsecc.seek(rsecc.length());
+            //numero alumno
+            rsecc.writeInt(na);
+            //nota
+            rsecc.writeDouble(0);
+            //estado
+            rsecc.writeChar('P');
+            rsecc.close();
+            return true;
+        }
         return false;
     }
     

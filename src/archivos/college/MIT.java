@@ -26,6 +26,9 @@ public class MIT {
             System.out.println("1- Agregar Maestro");
             System.out.println("2- Agregar Alumno");
             System.out.println("3- Listar Maestros disponibles");
+            System.out.println("4- Listar Alumnos");
+            System.out.println("5- Crear Seccion");
+            System.out.println("6- Matricular Alumno");
             System.out.println("7- Salir");
             System.out.println("Escoja opcion: ");
             
@@ -41,6 +44,15 @@ public class MIT {
                         break;
                     case 3:
                         mit.listarMaestrosDisponibles();
+                        break;
+                    case 4:
+                        listarAlumnos();
+                        break;
+                    case 5:
+                        crearSeccion();
+                        break;
+                    case 6:
+                        matricular();
                         break;
                 }
                 
@@ -84,5 +96,31 @@ public class MIT {
         Calendar c = Calendar.getInstance();
         c.set(year, mes-1, dia);
         return c.getTime();
+    }
+
+    private static void listarAlumnos()throws IOException {
+        System.out.println("Listar Todos (T) o segun el estado A,G o R: ");
+        mit.listarAlumnos(lea.next().charAt(0));
+    }
+
+    private static void crearSeccion()throws IOException {
+        System.out.println("Nombre: ");
+        String nom = lea.next();
+        System.out.println("Numero Maestro: ");
+        int nm = lea.nextInt();
+        mit.crearSeccion(nom, nm);
+    }
+
+    private static void matricular()throws IOException {
+        System.out.println("Numero Seccion: ");
+        int ns = lea.nextInt();
+        System.out.println("Numero Alumno: ");
+        int na = lea.nextInt();
+        if(mit.inscribirAlumnoEnSeccion(ns, na)){
+            System.out.println("Se pudo inscribir");
+        }
+        else{
+            System.out.println("No se pudo inscribir");
+        }
     }
 }
