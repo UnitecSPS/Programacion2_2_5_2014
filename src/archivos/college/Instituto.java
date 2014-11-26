@@ -49,10 +49,10 @@ char estado:
 CONTIENE
 int año
 string nombre clase
-int numero
+int numero de profesor
 int cantidad-alumnos
 *
-int normal
+int numero de alumno
 double notaFinal
 char estado
 
@@ -70,7 +70,7 @@ public class Instituto {
     
     public Instituto(){
         try{
-            new File(DIR_ROOT).mkdir();
+            new File(DIR_ROOT+"/secciones").mkdirs();
             rMaistros = new RandomAccessFile(DIR_ROOT+"/maestros.col", "rw");
             rAlumns = new RandomAccessFile(DIR_ROOT+"/alumnos.col", "rw");
             initCodesFile();
@@ -176,5 +176,88 @@ public class Instituto {
             }
         }
     }
+    
+    /**
+     * Busca un maestro dentro del archivo 
+     * @param nm Numero del Maestro
+     * @return <code>true</code> si lo encontro o no
+     * @throws IOException Si falla el archivo
+     */
+    public boolean searchMaestro(int nm)throws IOException{
+        rMaistros.seek(0);
+        while(rMaistros.getFilePointer() < rMaistros.length()){
+            if(rMaistros.readInt() == nm){
+                return true;
+            }
+            rMaistros.readUTF();
+            rMaistros.skipBytes(13);
+        }
+        return false;
+    }
+    
+    /**
+     * Busca si un maestro esta disponible
+     * @param nm Numero de Maestro
+     * @return Si esta disponible o no
+     * @throws IOException 
+     */
+    private boolean isMaestroDisponible(int nm)throws IOException{
+        if(searchMaestro(nm)){
+            rMaistros.readUTF();
+            rMaistros.skipBytes(12);
+            return rMaistros.readBoolean();
+        }
+        return false;
+    }
+    
+    /**
+     * Lista todos los alumnos segun el estado
+     * @param estado 'A' todos los activos
+     *              'R' todos los retirados
+     *              'G' todos los graduados
+     *              'T' TODOS sin importar su estado
+     */
+    public void listarAlumnos(char estado){
+        
+    }
+    
+    /**
+     * Busca un alumno en el archivo
+     * @param na Numero de Alumnos
+     * @return Si existe o no
+     */
+    public boolean searchAlumno(int na){
+        return false;
+    }
+    
+    /**
+     * Crea una nueva seccion
+     * @param nom Nombre de Seccion
+     * @param nm Numero de Maestro
+     */
+    public void crearSeccion(String nom, int nm){
+        /*
+        Resticciones:
+            - Que el maestro este disponible
+            - mostrar en pantalla el nombre del maestro
+                si esta disponibles
+        */
+    }
+    
+    /**
+     * Inscribe a un alumno a una seccion
+     * @param ns Numero de Seccion
+     * @param na Numero de Alumno
+     * @return Si se pudo inscribir o no
+     */
+    public boolean inscribirAlumnoEnSeccion(int ns,int na){
+        /**
+         * Restricciones:
+         *   - Que el alumno exista
+         *   - Que la seccion exista
+         */
+        return false;
+    }
+    
     
 }
