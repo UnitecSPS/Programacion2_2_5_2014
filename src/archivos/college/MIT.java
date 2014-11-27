@@ -29,7 +29,8 @@ public class MIT {
             System.out.println("4- Listar Alumnos");
             System.out.println("5- Crear Seccion");
             System.out.println("6- Matricular Alumno");
-            System.out.println("7- Salir");
+            System.out.println("7- Imprimir Seccion");
+            System.out.println("8- Salir");
             System.out.println("Escoja opcion: ");
             
             try{
@@ -54,6 +55,9 @@ public class MIT {
                     case 6:
                         matricular();
                         break;
+                    case 7:
+                        imprimirSeccion();
+                        break;
                 }
                 
             }catch(InputMismatchException e){
@@ -67,7 +71,7 @@ public class MIT {
                 System.out.println("Carrera no es aceptada");
             }
             
-        }while(op != 7);
+        }while(op != 8);
     }
 
     private static void addMaestro()throws IOException {
@@ -122,5 +126,10 @@ public class MIT {
         else{
             System.out.println("No se pudo inscribir");
         }
+    }
+
+    private static void imprimirSeccion() throws IOException{
+        System.out.println("Numero de la seccion: ");
+        mit.printSeccion(lea.nextInt());
     }
 }

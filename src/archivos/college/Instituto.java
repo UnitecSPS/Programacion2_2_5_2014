@@ -38,7 +38,7 @@ char estado:
 
 >>> alumnos/historial_numeroalumno.col
 CONTIENE:
-string seccion
+int numero seccion
 double nota
 char estado:
 >A aprobado
@@ -233,7 +233,7 @@ public class Instituto {
             char state = rAlumns.readChar();
             
             if(estado == 'T' || estado == state){
-                System.out.printf("%d - %n - nacido en %s - matriculado en %s - promedio: %.1f%n",
+                System.out.printf("%d - %s - nacido en %s - matriculado en %s - promedio: %.1f%n",
                         cod,no,fecha.toString(),carr,prom);
             }
         }
@@ -263,6 +263,10 @@ public class Instituto {
     
     private String seccionFilename(int ns){
         return DIR_ROOT+"/secciones/numero"+ns+".col";
+    }
+    
+    private String historialFilename(int na){
+        return DIR_ROOT+"/alumnos/historial_"+na+".col";
     }
     
     /**
@@ -308,6 +312,23 @@ public class Instituto {
     }
     
     /**
+     * Agregar un nuevo registro al historial del alumno
+     * @param na Numero del Alumno
+     * @param ns Numero de la Seccion
+     * @throws IOException 
+     */
+    private void actualizarHistorialDeAlumno(int na, int ns)throws IOException {
+        RandomAccessFile rHistory = new RandomAccessFile(historialFilename(na),"rw");
+        rHistory.seek(rHistory.length());
+        //seccion
+        rHistory.writeInt(ns);
+        //nota
+        rHistory.writeDouble(0);
+        //estado
+        rHistory.writeChar('P');
+    }
+    
+    /**
      * Inscribe a un alumno a una seccion
      * @param ns Numero de Seccion
      * @param na Numero de Alumno
@@ -338,10 +359,80 @@ public class Instituto {
             //estado
             rsecc.writeChar('P');
             rsecc.close();
+            
+            actualizarHistorialDeAlumno(na,ns);
             return true;
         }
         return false;
     }
+    
+    /**
+     * Imprimir toda la informacion de una seccion
+     * @param ns Numero de la seccion
+     * @throws java.io.IOException
+     */
+     public void printSeccion(int ns)throws IOException{
+        if(existeSeccion(ns)){
+            RandomAccessFile rsecc = new RandomAccessFile(seccionFilename(ns), "r");
+            
+            int year = rsecc.readInt();
+            //clase
+            String nombre = rsecc.readUTF();
+            //maestro
+            int nm = rsecc.readInt();
+            searchMaestro(nm);
+            String nomm = rMaistros.readUTF();
+            //cantidad
+            int cantidad = rsecc.readInt();
+            
+            System.out.println("SECCION: " + ns);
+            System.out.println("Nombre: " + nombre);
+            System.out.println(nm+"-"+nomm);
+            System.out.println("Cantidad Alumnos: "+cantidad);
+            System.out.println("---------------------------");
+            
+            while(rsecc.getFilePointer() < rsecc.length()){
+                //numero del alumno
+                int na = rsecc.readInt();
+                searchAlumno(na);
+                String noma = rAlumns.readUTF();
+                //nota
+                double nota = rsecc.readDouble();
+                //estado
+                char estado = rsecc.readChar();
+                
+                System.out.printf("%d-%s Promedio %.1f - %c%n",
+                        na,noma,nota,estado);
+            }
+            rsecc.close();
+        }
+    }
+
+     public boolean isAlumnoEnSeccion(int na,int ns){
+         /**
+          * Retorna true si el alumno YA esta
+          * matriculado en esa seccion o no.
+          */
+         return false;
+     }
+     
+     public void actualizarNotaDeAlumno(int ns,int na,double nf){
+         /**
+          * Busca el alumno en esa seccion:
+          *     - si existe, actualiza la nota y el estado.
+          *         - Se pasa con 60.
+          *         - actualizan tambien el registro y estado en el historial
+          *         - Actualiza el promedio gral del alumno
+          */
+     }
+     
+     public void printHistorialDeAlumno(int na){
+         /**
+          * Muestra los datos de un alumno si existe
+          *  - Luego imprime el listado de clases matriculadas
+          */
+     }
+    
     
     
 }
