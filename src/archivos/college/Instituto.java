@@ -342,6 +342,8 @@ public class Instituto {
          *   - Que la seccion exista
          */
         if(searchAlumno(na) && existeSeccion(ns)){
+            if (isAlumnoEnSeccion(na, ns))
+                return false;
             RandomAccessFile rsecc = new RandomAccessFile(seccionFilename(ns), "rw");
             rsecc.readInt();
             rsecc.readUTF();
@@ -408,15 +410,35 @@ public class Instituto {
         }
     }
 
-     public boolean isAlumnoEnSeccion(int na,int ns){
+     public boolean isAlumnoEnSeccion(int na,int ns) throws IOException{
          /**
           * Retorna true si el alumno YA esta
           * matriculado en esa seccion o no.
           */
+         if(existeSeccion(ns) && searchAlumno(na)){
+             RandomAccessFile rSecc = new RandomAccessFile(seccionFilename(ns), "r");
+             rSecc.readInt();
+             rSecc.readUTF();
+             rSecc.skipBytes(8);
+             while(rSecc.getFilePointer() < rSecc.length()){
+                 if (rSecc.readInt() == na){
+                     System.out.println("El alumno ya existe en la seccion.");
+                     return true;   
+                 }
+                 
+                 rSecc.skipBytes(10);
+             }
+         }
          return false;
      }
      
-     public void actualizarNotaDeAlumno(int ns,int na,double nf){
+    /**
+     * Actualiza la nota del alumno en esa seccion
+     * @param ns Numero de seccion
+     * @param na Numero de alumno
+     * @param nf Nota final
+     */
+    public void actualizarNotaDeAlumno(int ns, int na, double nf) throws IOException{
          /**
           * Busca el alumno en esa seccion:
           *     - si existe, actualiza la nota y el estado.
@@ -424,12 +446,53 @@ public class Instituto {
           *         - actualizan tambien el registro y estado en el historial
           *         - Actualiza el promedio gral del alumno
           */
+        if(existeSeccion(ns) && searchAlumno(na)){
+             RandomAccessFile rSecc = new RandomAccessFile(seccionFilename(ns), "r");
+             rSecc.readInt();
+             rSecc.readUTF();
+             rSecc.skipBytes(8);
+             while(rSecc.getFilePointer() < rSecc.length()){
+                 if (rSecc.readInt() == na){
+                     rSecc.writeDouble(nf);
+                     if (nf >= 60)
+                         rSecc.writeChar('A');
+                     else
+                         rSecc.writeChar('P');
+                     
+                     System.out.println("Nota actualizada.");
+                     
+                     RandomAccessFile rHist = new RandomAccessFile(historialFilename(na), "rw");
+                     
+                     return;
+                 }
+                 
+                 rSecc.skipBytes(10);
+             }
+         }
      }
+    
+    /*
+    >>> secciones/numero#.col
+        CONTIENE
+        int año
+        string nombre clase
+        int numero de profesor
+        int cantidad-alumnos
+        *
+        int numero de alumno
+        double notaFinal
+        char estado
+    */
      
      public void printHistorialDeAlumno(int na){
          /**
           * Muestra los datos de un alumno si existe
           *  - Luego imprime el listado de clases matriculadas
+          * >>> alumnos/historial_numeroalumno.col
+            CONTIENE:
+            int numero seccion
+            double nota
+            char estado:
           */
      }
     

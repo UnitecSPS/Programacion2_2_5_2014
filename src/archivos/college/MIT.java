@@ -30,8 +30,9 @@ public class MIT {
             System.out.println("5- Crear Seccion");
             System.out.println("6- Matricular Alumno");
             System.out.println("7- Imprimir Seccion");
-            System.out.println("8- Salir");
-            System.out.println("Escoja opcion: ");
+            System.out.println("8- Buscar alumno en seccion");
+            System.out.println("11- Salir");
+            System.out.print("Escoja opcion: ");
             
             try{
                 op = lea.nextInt();
@@ -58,6 +59,9 @@ public class MIT {
                     case 7:
                         imprimirSeccion();
                         break;
+                    case 8:
+                        actualizarNotaAlumno();
+                        break;
                 }
                 
             }catch(InputMismatchException e){
@@ -71,23 +75,23 @@ public class MIT {
                 System.out.println("Carrera no es aceptada");
             }
             
-        }while(op != 8);
+        }while(op != 11);
     }
 
     private static void addMaestro()throws IOException {
-        System.out.println("Nombre: ");
+        System.out.print("Nombre: ");
         String n = lea.next();
-        System.out.println("Fecha d/m/anio: ");
+        System.out.print("Fecha d/m/anio: ");
         String fecha = lea.next();
         mit.addMaestro(n, getfecha(fecha));
     }
 
     private static void addAlumno()throws IOException {
-        System.out.println("Nombre: ");
+        System.out.print("Nombre: ");
         String n = lea.next();
-        System.out.println("Fecha d/m/anio: ");
+        System.out.print("Fecha d/m/anio: ");
         String fecha = lea.next();
-        System.out.println("Carrera: ");
+        System.out.print("Carrera: ");
         Carrera car = Carrera.valueOf(lea.next().toUpperCase());
         mit.addAlumno(n, getfecha(fecha), car);
     }
@@ -103,22 +107,22 @@ public class MIT {
     }
 
     private static void listarAlumnos()throws IOException {
-        System.out.println("Listar Todos (T) o segun el estado A,G o R: ");
+        System.out.print("Listar Todos (T) o segun el estado A,G o R: ");
         mit.listarAlumnos(lea.next().charAt(0));
     }
 
     private static void crearSeccion()throws IOException {
-        System.out.println("Nombre: ");
+        System.out.print("Nombre: ");
         String nom = lea.next();
-        System.out.println("Numero Maestro: ");
+        System.out.print("Numero Maestro: ");
         int nm = lea.nextInt();
         mit.crearSeccion(nom, nm);
     }
 
     private static void matricular()throws IOException {
-        System.out.println("Numero Seccion: ");
+        System.out.print("Numero Seccion: ");
         int ns = lea.nextInt();
-        System.out.println("Numero Alumno: ");
+        System.out.print("Numero Alumno: ");
         int na = lea.nextInt();
         if(mit.inscribirAlumnoEnSeccion(ns, na)){
             System.out.println("Se pudo inscribir");
@@ -129,7 +133,26 @@ public class MIT {
     }
 
     private static void imprimirSeccion() throws IOException{
-        System.out.println("Numero de la seccion: ");
+        System.out.print("Numero de la seccion: ");
         mit.printSeccion(lea.nextInt());
+    }
+
+    private static void buscarAlumnoEnSeccion() throws IOException{
+        System.out.print("Ingrese el numero de seccion: ");        
+        int ns = lea.nextInt();
+        System.out.print("Ingrese el numero de alumno: ");
+        int na = lea.nextInt();
+        
+        System.out.println(mit.isAlumnoEnSeccion(na, ns));
+    }
+
+    private static void actualizarNotaAlumno() throws IOException{
+        System.out.print("Ingrese el numero de seccion: ");        
+        int ns = lea.nextInt();
+        System.out.print("Ingrese el numero de alumno: ");
+        int na = lea.nextInt();
+        System.out.println("Ingrese la nota final del alumno");
+        double nf  =lea.nextDouble();
+        mit.actualizarNotaDeAlumno(ns, na, nf);
     }
 }
