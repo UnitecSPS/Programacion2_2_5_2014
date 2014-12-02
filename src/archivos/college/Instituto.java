@@ -437,6 +437,7 @@ public class Instituto {
      * @param ns Numero de seccion
      * @param na Numero de alumno
      * @param nf Nota final
+     * @throws java.io.IOException
      */
     public void actualizarNotaDeAlumno(int ns, int na, double nf) throws IOException{
          /**
@@ -447,44 +448,39 @@ public class Instituto {
           *         - Actualiza el promedio gral del alumno
           */
         if(existeSeccion(ns) && searchAlumno(na)){
-             RandomAccessFile rSecc = new RandomAccessFile(seccionFilename(ns), "r");
+             RandomAccessFile rSecc = new RandomAccessFile(seccionFilename(ns), "rw");
              rSecc.readInt();
              rSecc.readUTF();
              rSecc.skipBytes(8);
              while(rSecc.getFilePointer() < rSecc.length()){
                  if (rSecc.readInt() == na){
                      rSecc.writeDouble(nf);
+                     
+                     char newEstado = 'P';
                      if (nf >= 60)
-                         rSecc.writeChar('A');
-                     else
-                         rSecc.writeChar('P');
+                         newEstado = 'A';
+                    
+                     rSecc.writeChar(newEstado);
                      
                      System.out.println("Nota actualizada.");
                      
                      RandomAccessFile rHist = new RandomAccessFile(historialFilename(na), "rw");
-                     
+                     while(rHist.getFilePointer() < rHist.length()){
+                         if (rHist.readInt() == ns){
+                             rSecc.writeDouble(nf);
+                             rSecc.writeChar(newEstado);
+                         }else
+                             rHist.skipBytes(10);
+                     }
                      return;
                  }
                  
                  rSecc.skipBytes(10);
              }
          }
-     }
-    
-    /*
-    >>> secciones/numero#.col
-        CONTIENE
-        int año
-        string nombre clase
-        int numero de profesor
-        int cantidad-alumnos
-        *
-        int numero de alumno
-        double notaFinal
-        char estado
-    */
+     }    
      
-     public void printHistorialDeAlumno(int na){
+     public void printHistorialDeAlumno(int na) throws IOException{
          /**
           * Muestra los datos de un alumno si existe
           *  - Luego imprime el listado de clases matriculadas
@@ -494,6 +490,35 @@ public class Instituto {
             double nota
             char estado:
           */
+         if (searchAlumno(na)){
+             /*
+            int numero
+            string nombre
+            long fecha
+            double promedio
+            string carrera >> Enum
+            char estado:
+             */
+             System.out.printf("Nombre de estudiante: %s - Fecha de nacimiento: %tD - Promedio: %.2f - Carrera: %s - Estado: %c %n",
+                     rAlumns.readUTF(), rAlumns.readLong(), rAlumns.readDouble(), rAlumns.readUTF(), rAlumns.readChar());
+             System.out.println("***CLASES MATRICULADAS***");
+             
+             RandomAccessFile rHist = new RandomAccessFile(historialFilename(na), "r");
+             while(rHist.getFilePointer() < rHist.length()){
+                 /*
+                 >>> secciones/numero#.col
+                    CONTIENE
+                    int año
+                    string nombre clase
+                    int numero de profesor
+                    int cantidad-alumnos
+                    *
+                    int numero de alumno
+                    double notaFinal
+                    char estado
+                 */
+             }
+         }
      }
     
     

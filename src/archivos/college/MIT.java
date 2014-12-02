@@ -30,7 +30,8 @@ public class MIT {
             System.out.println("5- Crear Seccion");
             System.out.println("6- Matricular Alumno");
             System.out.println("7- Imprimir Seccion");
-            System.out.println("8- Buscar alumno en seccion");
+            System.out.println("8- Cambiar nota de alumno");
+            System.out.println("9- Imprimir historial");
             System.out.println("11- Salir");
             System.out.print("Escoja opcion: ");
             
@@ -62,6 +63,9 @@ public class MIT {
                     case 8:
                         actualizarNotaAlumno();
                         break;
+                    case 9:
+                        imprimirHistorial();
+                        break;
                 }
                 
             }catch(InputMismatchException e){
@@ -70,6 +74,7 @@ public class MIT {
             }
             catch(IOException e){
                 System.out.println(e.getMessage());
+                e.printStackTrace();
             }
             catch(IllegalArgumentException e){
                 System.out.println("Carrera no es aceptada");
@@ -136,23 +141,20 @@ public class MIT {
         System.out.print("Numero de la seccion: ");
         mit.printSeccion(lea.nextInt());
     }
-
-    private static void buscarAlumnoEnSeccion() throws IOException{
-        System.out.print("Ingrese el numero de seccion: ");        
-        int ns = lea.nextInt();
-        System.out.print("Ingrese el numero de alumno: ");
-        int na = lea.nextInt();
-        
-        System.out.println(mit.isAlumnoEnSeccion(na, ns));
-    }
-
+    
     private static void actualizarNotaAlumno() throws IOException{
         System.out.print("Ingrese el numero de seccion: ");        
         int ns = lea.nextInt();
         System.out.print("Ingrese el numero de alumno: ");
         int na = lea.nextInt();
-        System.out.println("Ingrese la nota final del alumno");
+        System.out.print("Ingrese la nota final del alumno: ");
         double nf  =lea.nextDouble();
         mit.actualizarNotaDeAlumno(ns, na, nf);
+    }
+
+    private static void imprimirHistorial() throws IOException{        
+        System.out.print("Ingrese el numero de alumno: ");
+        int na = lea.nextInt();
+        mit.printHistorialDeAlumno(na);
     }
 }
