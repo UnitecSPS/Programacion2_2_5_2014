@@ -24,6 +24,7 @@ public class FileReaderTest {
             File fi = new File(filename);
             FileReader fr = new FileReader(fi);
             
+            //1- MEtodo con el read de FileReader
             char [] buffer = new char[(int)fi.length()];
             
             int bytesLeidos = fr.read(buffer);
@@ -31,6 +32,18 @@ public class FileReaderTest {
             System.out.println("Bytes leidos: " + bytesLeidos);
             System.out.println("Contenido: \n --------------");
             System.out.println(buffer);
+           // fr.close();
+            //2- Metodo con el Scanner
+            fr= new FileReader(fi);
+            Scanner lector = new Scanner(fr);
+            lector.useDelimiter("\r\n");
+            System.out.println("\n\nContenido con Scanner: \n --------------");
+              
+            while(lector.hasNext()){
+                String dato = lector.next();
+                System.out.println(dato);
+            }
+                
         }catch (IOException ex){
             System.out.println(ex.getMessage());
         }
