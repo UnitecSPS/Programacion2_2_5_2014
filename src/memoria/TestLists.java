@@ -9,7 +9,7 @@ package memoria;
  *
  * @author raim
  */
-public class TestNodos {
+public class TestLists {
     public static void main(String[] args) {
         NodoList list = new NodoList();
         
