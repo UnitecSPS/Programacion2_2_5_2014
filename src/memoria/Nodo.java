@@ -10,9 +10,11 @@ package memoria;
  * @author Docente
  */
 public class Nodo {
-    public String texto;
+    protected String texto;
+    protected Nodo siguiente;
     
     public Nodo(String txt){
         texto = txt;
+        siguiente = null;
     }
 }
