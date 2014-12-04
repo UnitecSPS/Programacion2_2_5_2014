@@ -40,16 +40,18 @@ public class NodoList {
     public void remove (String txt){
         Nodo tmp = inicio;
         
-        if (!isEmpty() && tmp.texto.equals(txt))
-            inicio = tmp.siguiente;
-        else{                
-            while(tmp.siguiente != null){                    
-                if (tmp.siguiente.texto.equals(txt)){          
-                    tmp.siguiente = tmp.siguiente.siguiente;       
-                    break;                    
-                }else                
-                    tmp = tmp.siguiente;                
-            }                   
+        if (!isEmpty()){
+            if(tmp.texto.equals(txt))
+                inicio = tmp.siguiente;
+            else{                
+                while(tmp.siguiente != null){                    
+                    if (tmp.siguiente.texto.equals(txt)){          
+                        tmp.siguiente = tmp.siguiente.siguiente;       
+                        break;                    
+                    }else                
+                        tmp = tmp.siguiente;                
+                }                   
+            }            
         }
         
     }
