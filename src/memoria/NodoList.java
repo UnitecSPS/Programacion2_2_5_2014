@@ -45,7 +45,7 @@ public class NodoList {
                 inicio = tmp.siguiente;
             else{                
                 while(tmp.siguiente != null){                    
-                    if (tmp.siguiente.texto.equals(txt)){          
+                    if (tmp.siguiente.texto.equalsIgnoreCase(txt)){          
                         tmp.siguiente = tmp.siguiente.siguiente;       
                         break;                    
                     }else                
@@ -55,8 +55,74 @@ public class NodoList {
         }
         
     }
+     
+    /**
+     * Busca si el texto a buscar existe en la lista
+     * @param txt Texto a buscar dentro de la lista
+     * @return <code>true</code> si el objeto es encontrado en la lista
+     */
+    public boolean contains (String txt){
+        Nodo tmp = inicio;
+        while(tmp != null){
+            if (tmp.texto.equalsIgnoreCase(txt))
+                return true;
             
+            tmp = tmp.siguiente;
+        }
+        return false;
+    }
+    
+    /**
+     * Devuelve el tamaño de la Lista
+     * @return <code>int</code> indicando el tamaño
+     */
+    public int size(){
+        int size = 0;
+        
+        Nodo tmp = inicio;
+        
+        while(tmp != null){            
+            size++;
+            tmp = tmp.siguiente;
+        }
+        
+        return size;
+    }
+    
+    /**
+     * Agrega el nodo después del que se ha especificado
+     * @param obj Nodo a agregar
+     * @param despuesDe Nodo después del cual se agregará el nodo
+     * @return <code>true</code> si se pudo agregar
+     */
+    public boolean append(Nodo obj, String despuesDe){
+        Nodo tmp = inicio;
+        
+        if(!isEmpty()){
+            if(tmp.texto.equalsIgnoreCase(despuesDe)){
+                obj.siguiente = tmp.siguiente;
+                tmp.siguiente = obj;
+                return true;
+            }else{
+                while(tmp.siguiente != null){
+                    if(tmp.siguiente.texto.equals(despuesDe)){
+                        obj.siguiente = tmp.siguiente.siguiente;
+                        tmp.siguiente.siguiente = obj;
+                        return true;
+                    }else
+                        tmp = tmp.siguiente;
+                }
+            }
+                
+        }
+        return false;
+    }
+    
+    /**
+     * Limpia toda la lista
+     */
+    public void clear(){
+        inicio = null;
+    }
     
 }
-    
-    

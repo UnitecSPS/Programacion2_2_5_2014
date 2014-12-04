@@ -5,21 +5,26 @@
  */
 package memoria;
 
+import java.util.Scanner;
+
 /**
  *
  * @author raim
  */
 public class TestLists {
     public static void main(String[] args) {
-        NodoList list = new NodoList();
-        
+        NodoList list = new NodoList();        
+        Scanner lea = new Scanner(System.in);
+
         list.add(new Nodo("Raim"));
         list.add(new Nodo("Jose"));
         list.add(new Nodo("Nexer"));
         list.add(new Nodo("Luis"));
         list.add(new Nodo("Andrea"));
-        
+        list.append(new Nodo("Doppel"), "Raim");
         list.print();
+        
+        System.out.println("\nSize: " + list.size());
         
         System.out.println("");
         
@@ -27,7 +32,18 @@ public class TestLists {
         list.remove("Lui");
         list.remove("Nexer");
         list.remove("Andrea");           
+        
+        list.print();    
+        System.out.println("\nSize: " + list.size());
 
-        list.print();
+        //list.clear();
+        list.append(new Nodo("Hola"), "Luis");
+        System.out.println("");
+        list.print();    
+        System.out.println("\nSize: " + list.size());
+        
+        System.out.print("Ingrese el texto a buscar: ");
+        String txt = lea.next();
+        System.out.printf("\nContains %s: %s\n", txt, list.contains(txt));
     }
 }
