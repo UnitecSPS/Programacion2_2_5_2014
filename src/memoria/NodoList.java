@@ -98,23 +98,15 @@ public class NodoList {
     public boolean append(Nodo obj, String despuesDe){
         Nodo tmp = inicio;
         
-        if(!isEmpty()){
+        while(tmp != null){
             if(tmp.texto.equalsIgnoreCase(despuesDe)){
                 obj.siguiente = tmp.siguiente;
                 tmp.siguiente = obj;
                 return true;
-            }else{
-                while(tmp.siguiente != null){
-                    if(tmp.siguiente.texto.equals(despuesDe)){
-                        obj.siguiente = tmp.siguiente.siguiente;
-                        tmp.siguiente.siguiente = obj;
-                        return true;
-                    }else
-                        tmp = tmp.siguiente;
-                }
-            }
-                
-        }
+            }else                
+                tmp = tmp.siguiente;            
+        }            
+        
         return false;
     }
     

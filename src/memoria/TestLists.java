@@ -37,12 +37,12 @@ public class TestLists {
         System.out.println("\nSize: " + list.size());
 
         //list.clear();
-        list.append(new Nodo("Hola"), "Luis");
+        list.append(new Nodo("Hola"), "Jose");
         System.out.println("");
         list.print();    
         System.out.println("\nSize: " + list.size());
         
-        System.out.print("Ingrese el texto a buscar: ");
+        System.out.print("\nIngrese el texto a buscar: ");
         String txt = lea.next();
         System.out.printf("\nContains %s: %s\n", txt, list.contains(txt));
     }
